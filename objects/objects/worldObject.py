@@ -1,4 +1,3 @@
-import pygame
 from objects.objects.gameObject import GameObject
 class WorldObject(GameObject):
     
