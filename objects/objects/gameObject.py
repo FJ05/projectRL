@@ -1,6 +1,3 @@
-import pygame
-
-
 class GameObject:
 
     def __init__(self, level: int, pos: tuple) -> None:

@@ -23,17 +23,17 @@ class Arena(Game):
 
     def create_objects(self):
         # sets display size
-        size = pygame.display.get_window_size()
+        background_size = pygame.display.get_window_size()
         
         # Loads the background image
         background_img = pygame.image.load(self.arena_path).convert()
         
         # sets the game backgound as the background
-        background = BackgroundObject(1, (0, 0), (255, 255, 255), (800, 600), image=background_img)
+        background = BackgroundObject(1, (0, 0), (255, 255, 255), background_size, image=background_img)
         self.worldObjects.append(background)
         
         # Sets the player pos in the middle of the screen
-        player = Player(3, (size[0]/2, size[1]/2))
+        player = Player(3, (background_size[0]/2, background_size[1]/2))
         inputHandler = InputHandler(player.update_movement, player)
         self.eventHandler.add_event(inputHandler.process_input)
         self.entityObjects.append(player)
