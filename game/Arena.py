@@ -60,7 +60,7 @@ class Arena(Game):
         
         # Sets the player pos in the middle of the screen
         player = Player(3, (background_size[0]/2, background_size[1]/2))
-
+        player.object_create(self.create_arrows)
         inputHandler = InputHandler(player.update_movement, player)
         attackHandler = ClickInputHandler(player.shoot, player)
         self.eventHandler.add_event(inputHandler.process_input)
