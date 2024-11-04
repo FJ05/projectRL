@@ -1,0 +1,20 @@
+
+# Game
+The game class is a parent class to any game. A game is just a scene that you can play. For example the main menu is a game where you can only click buttons
+in the screen. The area Game that was used for an example is what we think of as a game. In a game there are objects, world and entities.
+WorldObjects are stationary objects that never move, like text or backgrounds. Entities like players, monsters and bosses can move and have velocity.
+
+create a game by creating a new class that inherits the game class. Then add players, monsters and systems that adds them to the entities list.
+
+Each game has a eventHandler and a Renderer thats specified then created. The renderer renders all objects in the object list for that game(world and entiites)
+and the eventHandler processes events. Events can be added to the eventhandler such as inputhandlers. Inputhandlers need to be created but the basic inputhandler
+needs and entity to apply the inputhandler to and then also a function to play when the input is read. Such as when pressing w the player charatcher should move up.
+
+The create entiies function is recommended to exist in all games. This is where all the object that need to be created on start of the game is created and added
+to the object list.
+
+# Manager
+The GameManager or just managar manages a list(config) of games. This class controlls what game is run in what state.
+
+It also adds some information to games that they should know. Like what function to run to close pygame, or a what function to end this game and move to the next.
+The game list is looped until the end function is run.
