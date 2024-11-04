@@ -8,7 +8,15 @@ class BackgroundObject(WorldObject):
         self.color = color
         self.rect = rect  #size of the background
         self.image = image
-        self.create_color()
+        
+        if self.image:
+            self.scale_image()
+        else:
+            self.create_color()
+
+    def scale_image(self):
+        # Scale the image to the desired rect size
+        self.image = pygame.transform.scale(self.image, self.rect)
 
     def create_image(self):
         pass
