@@ -4,8 +4,10 @@ import pygame
 class GameObject:
 
     def __init__(self, level: int, pos: tuple) -> None:
+        self.surface = None
         self.level = level
         self.pos = pos
+        self.tags = []
 
     def get_level(self):
         return self.level if not self.level < 0 else 0
@@ -26,3 +28,9 @@ class GameObject:
 
     def get_y(self):
         return self.pos[1]
+
+    def add_tag(self, tag: str):
+        self.tags.append(tag)
+
+    def get_tags(self):
+        return self.tags

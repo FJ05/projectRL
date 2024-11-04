@@ -18,3 +18,21 @@ class Game:
     def set_exit_game(self, exit_game_call_back):
         self.exit_game = exit_game_call_back
 
+    def get_entities_by_tag(self, tag: str):
+
+        entities = []
+        for entity in self.entityObjects:
+            if entity.tags.count(tag) > 0:
+                entities.append(entity)
+
+        return entities
+
+    def get_world_by_tag(self, tag: str):
+
+        worldObjects = []
+        for world in self.worldObjects:
+            if world.tags.count(tag) > 0:
+                worldObjects.append(world)
+
+        return worldObjects
+

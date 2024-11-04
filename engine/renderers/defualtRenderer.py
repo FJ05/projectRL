@@ -12,7 +12,7 @@ class Renderer:
         self.screen = screen
 
     def set_objects(self, objects):
-        self.objects = objects()
+        self.objects = objects
 
     def render(self):
         screen_objects = self.objects[0] + self.objects[1]
@@ -21,5 +21,7 @@ class Renderer:
 
         for render_object in sorted_objects:
             self.screen.blit(render_object.get_surface(), render_object.get_rect())
+            
+        
 
         pygame.display.update()
