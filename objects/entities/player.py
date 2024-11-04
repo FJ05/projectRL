@@ -12,9 +12,11 @@ class Player(EntityObject):
         self.velMax = [7, 7]  # Maximum velocity
         
         self.rect = (100,100)
-
+        
+        # sets the path to the player
         image_path = "assets/player/player.png"
 
+        # load the player with given player asset
         self.surface =  pygame.image.load(image_path).convert_alpha()
 
     def update_movement(self, dir):

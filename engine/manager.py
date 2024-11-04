@@ -22,7 +22,7 @@ class GameManager:
             # Setters under here
             game.eventHandler.set_exist_callback(self.set_running_state)
             game.renderer.set_screen(self.screen)
-            game.renderer.set_objects(game.get_game_objects)
+            game.renderer.set_objects(game.get_game_objects())
             game.set_exit_game(self.end_current_game)
 
             # Doers under here
