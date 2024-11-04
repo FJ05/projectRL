@@ -15,11 +15,8 @@ class Player(EntityObject):
         
         # sets the path to the player
         image_path = "assets/player/player.png"
-<<<<<<< HEAD
-=======
 
         # load the player with given player asset
->>>>>>> cd8bb283b44349f995f7dfa3dce08746e42ddc69
         self.surface =  pygame.image.load(image_path).convert_alpha()
 
     def update_movement(self, dir):

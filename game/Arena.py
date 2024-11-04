@@ -15,14 +15,10 @@ class Arena(Game):
 
     def __init__(self):
         super().__init__(EventHandler(), Renderer())
-<<<<<<< HEAD
+
         self.screen_size = None
-=======
         # this is the background asset which will be loaded as the background
         self.arena_path = "assets/environment/arena.png"
-
-
->>>>>>> cd8bb283b44349f995f7dfa3dce08746e42ddc69
 
     def run(self):
 
@@ -30,7 +26,6 @@ class Arena(Game):
         self.renderer.render()
 
     def create_objects(self):
-<<<<<<< HEAD
         self.screen_size = pygame.display.get_window_size()
         self.worldObjects.append(BackgroundObject(1, (0, 0), (5, 125,52), self.screen_size))
 
@@ -41,7 +36,6 @@ class Arena(Game):
         player.add_tag("player")
         player.object_create(self.create_arrows)
 
-=======
         # sets display size
         size = pygame.display.get_window_size()
         
@@ -54,7 +48,7 @@ class Arena(Game):
         
         # Sets the player pos in the middle of the screen
         player = Player(3, (size[0]/2, size[1]/2))
->>>>>>> cd8bb283b44349f995f7dfa3dce08746e42ddc69
+        player.object_create(self.create_arrows)
         inputHandler = InputHandler(player.update_movement, player)
         attackHandler = ClickInputHandler(player.shoot, player)
         self.eventHandler.add_event(inputHandler.process_input)
