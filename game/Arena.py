@@ -7,6 +7,9 @@ from engine.eventHandlers.defualtEventHandler import EventHandler
 
 from objects.entities.player import Player
 from objects.worldObjects.backGroundObject import BackgroundObject
+
+from objects.worldObjects.collitionObject import CollitionObject
+
 class Arena(Game):
 
     def __init__(self):
@@ -36,4 +39,30 @@ class Arena(Game):
         player = Player(3, (background_size[0]/2, background_size[1]/2))
         inputHandler = InputHandler(player.update_movement, player)
         self.eventHandler.add_event(inputHandler.process_input)
+
+        self.eventHandler.add_event(attackHandler.process_input)
+
         self.entityObjects.append(player)
+
+    def create_walls(self):
+        self.worldObjects.append(CollitionObject(2,(300,300),(100,200)))
+        self.worldObjects.append(CollitionObject(2,(300,800),(100,200)))
+
+
+    # Events
+
+    def create_arrows(self, pos, angle):
+        arrow = Arrow(3, pos, angle)
+        self.eventHandler.add_event(arrow.update_movement)
+        self.entityObjects.append(arrow)
+
+    def check_collitions(self):
+        walls = self.get_world_by_tag("wall")
+        player = self.get_entities_by_tag("player")[0]
+        # Loop all the walls and check if player is colliding with one of them?
+        player.collition(False)
+        for wall in walls:
+
+            if wall.get_rect().colliderect(player.get_rect()):
+                player.collition(True)
+
