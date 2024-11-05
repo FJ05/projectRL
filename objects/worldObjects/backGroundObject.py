@@ -30,9 +30,6 @@ class BackgroundObject(WorldObject):
         else:
             return pygame.Rect(*self.position, *self.rect)  # yse self.rect as size if no image is provided
 
-    def get_level(self):
-        return self.level  # return the level to control render order
-
     def create_color(self):
         # create a surface filled with the specified color if no image is given
         self.surface = pygame.Surface(self.rect)

@@ -29,4 +29,3 @@ class InputHandler:
 
         # Call the callback function with the new direction
         self.call_back((dir_x, dir_y))
-

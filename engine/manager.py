@@ -36,7 +36,6 @@ class GameManager:
         self.dt = 0  # Frame rate independent physics
 
         while self.running:
-            print(self.current_game_index)
             game = self.games[self.current_game_index]
             game.run()
 

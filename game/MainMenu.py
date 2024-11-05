@@ -1,6 +1,6 @@
 import pygame.display
 
-from engine.eventHandlers.inputHandlers.clickInputHandler import InputHandler
+from engine.eventHandlers.inputHandlers.clickObjectInputHandler import InputHandler
 from engine.game.Game import Game
 from engine.renderers.defualtRenderer import Renderer
 from engine.eventHandlers.defualtEventHandler import EventHandler
