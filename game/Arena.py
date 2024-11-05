@@ -2,7 +2,7 @@ from venv import create
 
 import pygame
 
-from engine.eventHandlers.inputHandlers.clickInputHandler import InputHandler as ClickInputHandler
+from engine.eventHandlers.inputHandlers.clickInputHandler import ClickInputHandler
 from engine.eventHandlers.inputHandlers.movementInputHandler import InputHandler
 from engine.game.Game import Game
 from engine.renderers.defualtRenderer import Renderer
