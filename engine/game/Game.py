@@ -11,7 +11,6 @@ class Game:
     def get_game_objects(self):
         return self.entityObjects, self.worldObjects
 
-        # This
     def create_objects(self):
         print("No initial object exist for this game")
 
