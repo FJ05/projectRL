@@ -1,7 +1,7 @@
 from venv import create
 
 import pygame
-
+import math
 from engine.eventHandlers.inputHandlers.clickInputHandler import ClickInputHandler
 from engine.eventHandlers.inputHandlers.movementInputHandler import InputHandler
 from engine.game.Game import Game
@@ -60,6 +60,7 @@ class Arena(Game):
         self.worldObjects.append(CollitionObject(2,(300,800),(100,200)))
 
     def create_arrows(self, pos, angle):
+        # Create the arrow with the calculated angle
         arrow = Arrow(3, pos, angle)
         self.eventHandler.add_event(arrow.update_movement)
         self.entityObjects.append(arrow)
