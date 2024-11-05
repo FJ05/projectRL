@@ -1,6 +1,6 @@
 import pygame
 # this handler support wasd movement.
-class InputHandler:
+class InputHandler():
 
     def __init__(self, call_back_function, entity_object=None) -> None:
         self.call_back = call_back_function
