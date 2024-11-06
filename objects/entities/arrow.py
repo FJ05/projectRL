@@ -2,7 +2,6 @@ import pygame
 import math
 from objects.objects.entityObject import EntityObject
 
-
 class Arrow(EntityObject):
 
     def __init__(self, level: int, pos: tuple, angle):
@@ -13,6 +12,7 @@ class Arrow(EntityObject):
         self.add_tag("arrow")
 
         rect = pygame.display.get_window_size()
+        sound = pygame.mixer.Sound("sounds/entity_sounds/arrow.mp3")
         image_path = "assets/objects/arrow.png"
 
         self.surface = pygame.image.load(image_path).convert_alpha()
@@ -20,6 +20,8 @@ class Arrow(EntityObject):
         transform_angle = math.degrees(-self.angle) - 90 #This is the angle the arrow is traveling at
 
         self.surface = pygame.transform.rotate(self.surface, transform_angle)
+        
+        pygame.mixer.Sound.play(sound)
 
     def update_movement(self):
         self.pos = self.get_x() + math.cos(self.angle) * self.getMaxVelX(), self.get_y() + math.sin(self.angle) * self.getMaxVelY()
