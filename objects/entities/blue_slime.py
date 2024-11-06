@@ -7,10 +7,9 @@ class Blue_Slime(EntityObject):
 
     def __init__(self, level: int, pos: tuple):
         super().__init__(level, pos)
-        self.velMax = [5, 5]  # Maximum velocity
+        self.velMax = [2, 2]  # Maximum velocity
         self.colliding = False
         self.last_dir = (0,0)
-        self.speed = 5
         # sets the path to the player
         self.image_path = "assets/player/player.png"
         rect = pygame.display.get_window_size()
@@ -27,8 +26,8 @@ class Blue_Slime(EntityObject):
                                       player_pos[1] - self.get_y())
         dirvect.normalize()
         # Move along this normalized vector towards the player at current speed.
-        dirvect.scale_to_length(self.speed)
-        self.pos = player_pos[0] + dirvect[0], player_pos[1] + dirvect[1]
+        dirvect.scale_to_length((self.velMax[0]**2 + self.velMax[1]**2)**0.5)
+        self.pos = self.get_x() + dirvect[0], self.get_y() + dirvect[1]
 
     def collition(self, is_colliding):
         self.colliding = is_colliding
