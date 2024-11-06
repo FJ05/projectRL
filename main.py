@@ -15,7 +15,7 @@ def run():
 
     res = get_screen_resolution()
 
-    manager = GameManager(config, res, True)
+    manager = GameManager(config, res, False)
     manager.run()
 
 # Press the green button in the gutter to run the script.

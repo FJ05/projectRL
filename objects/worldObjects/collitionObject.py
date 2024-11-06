@@ -10,5 +10,4 @@ class CollitionObject(WorldObject):
 
         self.surface = pygame.Surface(self.rect)
         # This will be under here will be removed or the same will be in effect if level is changed.
-        self.surface.fill((255,0,0))
         

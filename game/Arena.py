@@ -2,6 +2,9 @@ from venv import create
 
 import pygame
 import math
+
+from joblib.externals.loky.backend.utils import kill_process_tree
+
 from engine.eventHandlers.inputHandlers.clickInputHandler import ClickInputHandler
 from engine.eventHandlers.inputHandlers.movementInputHandler import InputHandler
 from engine.game.Game import Game
@@ -42,6 +45,8 @@ class Arena(Game):
         self.create_player()
         self.create_enemies()
 
+        self.eventHandler.add_event(self.kill_arrows_hitting_wall)
+
     def create_player(self):  
         # Sets the player pos in the middle of the screen
         player = Player(3, (self.screen_size[0]/2, self.screen_size[1]/2))
@@ -52,7 +57,7 @@ class Arena(Game):
         self.eventHandler.add_event(self.check_collitions)
         self.eventHandler.add_event(inputHandler.process_input)
         self.eventHandler.add_event(attackHandler.process_input)
-        
+
 
         self.entityObjects.append(player)
 
@@ -64,8 +69,10 @@ class Arena(Game):
 
 
     def create_walls(self):
-        self.worldObjects.append(CollitionObject(2,(300,300),(100,200)))
-        self.worldObjects.append(CollitionObject(2,(300,800),(100,200)))
+        self.worldObjects.append(CollitionObject(0,(0,0),(self.screen_size[0],100)))
+        self.worldObjects.append(CollitionObject(0,(0,self.screen_size[1]-100),(self.screen_size[0],200)))
+        self.worldObjects.append(CollitionObject(0, (0, 0), (100, self.screen_size[1])))
+        self.worldObjects.append(CollitionObject(0, (self.screen_size[0]-100, 0), (100, self.screen_size[1])))
 
     def create_arrows(self, pos, angle):
         # Create the arrow with the calculated angle
@@ -89,4 +96,12 @@ class Arena(Game):
 
             if wall.get_rect().colliderect(player.get_rect()):
                 player.collition(True)
-        
+                
+    def kill_arrows_hitting_wall(self):
+        walls = self.get_world_by_tag("wall")
+        arrows = self.get_entities_by_tag("arrow")
+
+        for wall in walls:
+            for arrow in arrows:
+                if wall.get_rect().colliderect(arrow.get_rect()):
+                    self.entityObjects.remove(arrow)

@@ -49,7 +49,7 @@ class Player(EntityObject):
         self.colliding = is_colliding
 
     def shoot(self, angle):
-        self.create_arrow_call_back(self.get_pos(), angle)
+        self.create_arrow_call_back((self.get_x() + (self.get_size()[0]/2), self.get_y() + (self.get_size()[1]/2) ), angle)
 
     def object_create(self, call_back):
         self.create_arrow_call_back = call_back

@@ -8,7 +8,10 @@ class GameObject:
 
     def get_level(self):
         return self.level if not self.level < 0 else 0
-    
+
+    def get_size(self):
+        return self.get_rect().size
+
     def get_rect(self):
         rect = self.surface.get_rect()
         rect.topleft = self.pos
