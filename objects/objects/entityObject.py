@@ -5,6 +5,7 @@ class EntityObject(GameObject):
     def __init__(self, level: int, pos: tuple) -> None:
         super().__init__(level, pos)
         self.health = 1000000 # This thinks that health should normaly be
+        self.maxHealth = 1000000
         self.damage = 0
         self.acc = (0,0)
         self.vel = (0,0)

@@ -18,9 +18,14 @@ class TextObject(WorldObject):
         self.textColor = textColor
         self.backgroundColor = backgroundColor
 
-        font = pygame.font.Font('freesansbold.ttf', self.size)
+        self.font = pygame.font.Font('freesansbold.ttf', self.size)
 
-        self.surface = font.render(self.text, True, self.textColor, self.backgroundColor)
+        self.surface = self.font.render(self.text, True, self.textColor, self.backgroundColor)
+        self.rect = self.get_rect()
+
+    def set_text(self, text: str):
+        self.text = text
+        self.surface = self.font.render(text, True, self.textColor, self.backgroundColor)
         self.rect = self.get_rect()
 
 

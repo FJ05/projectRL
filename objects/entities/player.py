@@ -10,6 +10,7 @@ class Player(EntityObject):
         self.velMax = [7, 7]  # Maximum velocity
         self.colliding = False
         self.last_dir = (0,0)
+        self.set_health(100)
         # sets the path to the player
         self.image_path = "assets/player/player.png"
         rect = pygame.display.get_window_size()

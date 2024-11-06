@@ -12,6 +12,8 @@ class Arrow(EntityObject):
         self.rect = pygame.display.get_window_size() # size of the window for correct scaling
         self.add_tag("arrow")
 
+        self.set_damage(10)
+
         rect = pygame.display.get_window_size()
         image_path = "assets/objects/arrow.png"
 

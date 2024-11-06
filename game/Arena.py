@@ -3,7 +3,6 @@ from venv import create
 import pygame
 import math
 
-from joblib.externals.loky.backend.utils import kill_process_tree
 
 from engine.eventHandlers.inputHandlers.clickInputHandler import ClickInputHandler
 from engine.eventHandlers.inputHandlers.movementInputHandler import InputHandler
@@ -13,7 +12,7 @@ from engine.eventHandlers.defualtEventHandler import EventHandler
 from objects.entities.arrow import Arrow
 
 from objects.entities.player import Player
-from objects.entities.blue_slime import Blue_Slime
+from objects.entities.enemies.blue_slime import Blue_Slime
 from objects.worldObjects.backGroundObject import BackgroundObject
 from objects.worldObjects.collitionObject import CollitionObject
 class Arena(Game):
@@ -45,8 +44,9 @@ class Arena(Game):
         self.create_player()
         self.create_enemies()
 
+        self.eventHandler.add_event(self.arrows_hitting_enemies)
         self.eventHandler.add_event(self.kill_arrows_hitting_wall)
-
+        self.eventHandler.add_event(self.remove_dead_enemies)
     def create_player(self):  
         # Sets the player pos in the middle of the screen
         player = Player(3, (self.screen_size[0]/2, self.screen_size[1]/2))
@@ -82,7 +82,7 @@ class Arena(Game):
 
     def update_enemies(self):
         player = self.get_entities_by_tag("player")[0]
-        enemies = self.get_entities_by_tag("Enemy")
+        enemies = self.get_entities_by_tag("enemy")
 
         for enemy in enemies:
             enemy.update_movement(player.get_pos())
@@ -104,4 +104,22 @@ class Arena(Game):
         for wall in walls:
             for arrow in arrows:
                 if wall.get_rect().colliderect(arrow.get_rect()):
+                    if self.entityObjects.count(arrow) > 0:
+                        self.entityObjects.remove(arrow)
+
+    def remove_dead_enemies(self):
+        entities = self.get_entities_by_tag("dead")
+        for entity in entities:
+            self.entityObjects.remove(entity)
+
+    def arrows_hitting_enemies(self):
+        enemies = self.get_entities_by_tag("enemy")
+        arrows = self.get_entities_by_tag("arrow")
+        print(enemies)
+        print(arrows)
+        for enemy in enemies:
+            for arrow in arrows:
+                if enemy.get_rect().colliderect(arrow.get_rect()):
+                    print("shello")        
+                    enemy.inflict_damage(arrow.get_damage())
                     self.entityObjects.remove(arrow)
