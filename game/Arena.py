@@ -96,7 +96,7 @@ class Arena(Game):
 
             if wall.get_rect().colliderect(player.get_rect()):
                 player.collition(True)
-                
+
     def kill_arrows_hitting_wall(self):
         walls = self.get_world_by_tag("wall")
         arrows = self.get_entities_by_tag("arrow")
