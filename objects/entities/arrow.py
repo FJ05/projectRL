@@ -18,6 +18,7 @@ class Arrow(EntityObject):
         self.surface = pygame.image.load(image_path).convert_alpha()
         self.surface = pygame.transform.scale(self.surface, (((rect[0] / 16) / 3) / 5, (rect[1] / 9) / 5)) # for scaling the image to it's correct size
         transform_angle = math.degrees(-self.angle) - 90 #This is the angle the arrow is traveling at
+
         self.surface = pygame.transform.rotate(self.surface, transform_angle)
 
     def update_movement(self):
