@@ -20,8 +20,6 @@ class Arena(Game):
         self.arena_path = "assets/environment/arena.png"
 
         self.screen_size = None
-        # this is the background asset which will be loaded as the background
-        self.arena_path = "assets/environment/arena.png"
 
     def run(self):
 
