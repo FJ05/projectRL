@@ -10,6 +10,7 @@ from engine.eventHandlers.defualtEventHandler import EventHandler
 from objects.entities.arrow import Arrow
 
 from objects.entities.player import Player
+from objects.entities.blue_slime import Blue_Slime
 from objects.worldObjects.backGroundObject import BackgroundObject
 from objects.worldObjects.collitionObject import CollitionObject
 class Arena(Game):
@@ -39,6 +40,7 @@ class Arena(Game):
 
         self.create_walls()
         self.create_player()
+        self.create_enemies()
 
     def create_player(self):  
         # Sets the player pos in the middle of the screen
@@ -50,8 +52,16 @@ class Arena(Game):
         self.eventHandler.add_event(self.check_collitions)
         self.eventHandler.add_event(inputHandler.process_input)
         self.eventHandler.add_event(attackHandler.process_input)
+        
 
         self.entityObjects.append(player)
+
+    def create_enemies(self):
+        enemy = Blue_Slime(3, (0,0))
+        self.eventHandler.add_event(self.update_enemies)
+
+        self.entityObjects.append(enemy)
+
 
     def create_walls(self):
         self.worldObjects.append(CollitionObject(2,(300,300),(100,200)))
@@ -62,6 +72,13 @@ class Arena(Game):
         arrow = Arrow(3, pos, angle)
         self.eventHandler.add_event(arrow.update_movement)
         self.entityObjects.append(arrow)
+
+    def update_enemies(self):
+        player = self.get_entities_by_tag("player")[0]
+        enemies = self.get_entities_by_tag("Enemy")
+
+        for enemy in enemies:
+            enemy.update_movement(player.get_pos())
 
     def check_collitions(self):
         walls = self.get_world_by_tag("wall")
