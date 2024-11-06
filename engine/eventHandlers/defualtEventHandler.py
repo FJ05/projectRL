@@ -16,7 +16,7 @@ class EventHandler:
             if event.type == pygame.QUIT:
                 self.should_exit_callback(True)  # Set exit condition through callback
 
-        for event in self.added_events:
+        for event in self.added_events: # Loops all functions / events in the self.added events and runs them.
             event()
 
     def add_event(self, event):
@@ -25,5 +25,6 @@ class EventHandler:
     def remove_event(self, event):
         self.added_events.remove(event)
 
+    # A method to set the function to be run when the quit event is run.
     def set_exist_callback(self, should_exit_callback):
         self.should_exit_callback = should_exit_callback
