@@ -27,15 +27,12 @@ class Arena(Game):
         self.renderer.render()
 
     def create_objects(self):
-        self.initialize_screen_size()
+        self.screen_size = pygame.display.get_window_size() # Get screen size
         self.setup_background()
         self.setup_walls()
         self.setup_player()
         self.setup_enemies()
         self.setup_events()
-
-    def initialize_screen_size(self):
-        self.screen_size = pygame.display.get_window_size()
 
     def setup_background(self): # Skapa Bakrunden
         background_img = pygame.image.load(self.arena_path).convert()
@@ -66,7 +63,6 @@ class Arena(Game):
 
     def setup_enemies(self):
         enemy = Blue_Slime(3, (0, 0))
-        enemy.add_tag("enemy")
         self.entityObjects.append(enemy)
         self.eventHandler.add_event(self.update_enemies)
 
