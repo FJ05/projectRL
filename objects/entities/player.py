@@ -24,7 +24,7 @@ class Player(EntityObject):
         vel_x, vel_y = self.getMaxVelX(), self.getMaxVelY()
 
         if self.colliding:
-            # Revert last frames movement into 
+            # Revert last frames movement into wall
             x -= self.last_dir[0] * vel_x
             y -= self.last_dir[1] * vel_y
 
