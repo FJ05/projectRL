@@ -1,4 +1,4 @@
-import pygame
+import time
 from objects.objects.gameObject import GameObject
 class EntityObject(GameObject):
 
@@ -6,10 +6,14 @@ class EntityObject(GameObject):
         super().__init__(level, pos)
         self.health = 1000000 # This thinks that health should normaly be
         self.maxHealth = 1000000
+        self.damage_cooldown = 0.0 # Number in seconds
         self.damage = 0
+        self.reach = 0
         self.acc = (0,0)
         self.vel = (0,0)
         self.velMax = (0,0)
+        self.start_time = 0
+        self.damaged = False
 
     def getVelX(self):
         return self.vel[0]
@@ -40,3 +44,24 @@ class EntityObject(GameObject):
 
     def get_damage(self):
         return self.damage
+    
+    def set_damage_cooldown(self, cooldown):
+        self.damage_cooldown = cooldown
+
+    def get_damage_cooldown(self):
+        return self.damage_cooldown
+    
+    def set_reach(self, reach):
+        self.reach = reach
+
+    def get_reach(self):
+        return self.reach
+    
+    def set_on_damage_cooldown(self, bool):
+        self.damaged = bool
+        self.start_time = time.time()
+
+    def check_damage_cooldown(self):
+        elapsed_time = time.time() - self.start_time
+        if elapsed_time >= self.get_damage_cooldown():
+            self.set_on_damage_cooldown(False)

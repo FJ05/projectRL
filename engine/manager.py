@@ -19,14 +19,7 @@ class GameManager:
 
         # Pass the callback to each game, so the games know how to close the manager (used for when pressing x)
         for game in self.games:
-            # Setters under here
-            game.eventHandler.set_exist_callback(self.set_running_state)
-            game.renderer.set_screen(self.screen)
-            game.renderer.set_objects(game.get_game_objects())
-            game.set_exit_game(self.end_current_game)
-
-            # Doers under here
-            game.create_objects()
+            self.init_game(game)
 
 
 
@@ -40,16 +33,29 @@ class GameManager:
             game.run()
 
             # limits FPS to 60
-            self.dt = self.clock.tick(60) / 1000
+            self.clock.tick(60)
 
         self.end()
+
+    
+    def init_game(self, game):
+        # Setters under here
+            game.eventHandler.set_exist_callback(self.set_running_state)
+            game.renderer.set_screen(self.screen)
+            game.renderer.set_objects(game.get_game_objects())
+            game.set_exit_game(self.end_current_game)
+
+            # Doers under here
+            game.create_objects()
 
     def set_running_state(self, state: bool):
         self.running = not bool
 
     def end_current_game(self):
         #Callback function to end the current game's loop.
-        print("nub")
+        game = self.games[self.current_game_index]
+        game.reset()
+        self.init_game(game)
         self.current_game_index = (self.current_game_index + 1) % len(self.games)
 
     def end(self):

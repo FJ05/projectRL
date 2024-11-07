@@ -11,6 +11,7 @@ class Player(EntityObject):
         self.colliding = False
         self.last_dir = (0,0)
         self.set_health(100)
+        self.set_damage_cooldown(2)
         # sets the path to the player
         self.image_path = "assets/player/player.png"
         rect = pygame.display.get_window_size()

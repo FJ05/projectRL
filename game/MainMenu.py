@@ -12,7 +12,8 @@ class MainMenu(Game):
     def __init__(self):
         super().__init__(EventHandler(), Renderer())
 
-
+    def reset(self):
+        self.__init__()
 
     def run(self):
 

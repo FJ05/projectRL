@@ -2,16 +2,16 @@ import pygame
 
 from objects.objects.enemyObject import EnemyObject
 
-class Blue_Slime(EnemyObject):
+class Green_Slime(EnemyObject):
 
     def __init__(self, level: int, pos: tuple):
         super().__init__(level, pos)
-        self.velMax = [2, 2]  # Maximum velocity
-        self.image_path = "assets/mobs/blue_slime.png"
+        self.velMax = [4, 4]  # Maximum velocity
+        self.image_path = "assets/objects/arrow.png"
         rect = pygame.display.get_window_size()
-        self.add_tag("blue_slime")
-        self.set_health(50)
-        self.set_damage(10)
+        self.add_tag("green_slime")
+        self.set_health(10)
+        self.set_damage(40)
         self.set_reach(10)
         # load the slime with given enemy asset
         self.surface =  pygame.image.load(self.image_path).convert_alpha()

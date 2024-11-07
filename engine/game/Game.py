@@ -18,6 +18,9 @@ class Game:
     # A fall back method that exists if no method has been created in the child game class
     def create_objects(self):
         print("No initial object exist for this game")
+    
+    def reset(self):
+        print("This game did not have a real reset function falling back on this one")
 
     # A method to set the exit function varible
     def set_exit_game(self, exit_game_call_back):

@@ -1,5 +1,3 @@
-from venv import create
-
 import pygame
 import math
 
@@ -10,9 +8,11 @@ from engine.game.Game import Game
 from engine.renderers.defualtRenderer import Renderer
 from engine.eventHandlers.defualtEventHandler import EventHandler
 from objects.entities.arrow import Arrow
+from game.WaveController import Controller
 
 from objects.entities.player import Player
 from objects.entities.enemies.blue_slime import Blue_Slime
+from objects.entities.enemies.green_slime import Green_Slime
 from objects.worldObjects.backGroundObject import BackgroundObject
 from objects.worldObjects.collitionObject import CollitionObject
 class Arena(Game):
@@ -25,6 +25,9 @@ class Arena(Game):
     def run(self):
         self.eventHandler.process_events()
         self.renderer.render()
+
+    def reset(self):
+        self.__init__()
 
     def create_objects(self):
         self.screen_size = pygame.display.get_window_size() # Get screen size
@@ -62,10 +65,11 @@ class Arena(Game):
         return input_handler, attack_handler
 
     def setup_enemies(self):
-        enemy = Blue_Slime(3, (0, 0))
-        self.entityObjects.append(enemy)
+        enemy_list = [Blue_Slime(0,(0,0)), Green_Slime(0,(0,0))] # The list of enemies that can spawn
+        contoller = Controller(self.spawn_enemy, self.get_enemy_count, enemy_list) # The controller that spawns enemies when condition is right.
+        self.eventHandler.add_event(contoller.spawn)
         self.eventHandler.add_event(self.update_enemies)
-
+        
     def setup_walls(self):
         wall_positions = [
             (0, 0, self.screen_size[0], 100),  # Top
@@ -83,6 +87,7 @@ class Arena(Game):
         self.eventHandler.add_event(self.arrows_hitting_enemies)
         self.eventHandler.add_event(self.kill_arrows_hitting_wall)
         self.eventHandler.add_event(self.remove_dead_enemies)
+        self.eventHandler.add_event(self.damage_player)
 
     # Event methods
     def update_enemies(self):
@@ -125,7 +130,24 @@ class Arena(Game):
             for arrow in arrows:
                 if enemy.get_rect().colliderect(arrow.get_rect()):
                     enemy.inflict_damage(arrow.get_damage())
+                    if self.entityObjects.count(arrow) <= 0:
+                        continue # Skip Arrows that do not actually exist in the list. Or that has already been removed.
                     self.entityObjects.remove(arrow)
+
+    def damage_player(self):
+        player = self.get_entities_by_tag("player")[0]
+        enemies = self.get_entities_by_tag("enemy")
+        if player.health <= 0:
+            self.exit_game()
+
+        for enemy in enemies:
+            d = math.dist(player.get_pos(), enemy.get_pos())
+            if d <= enemy.get_reach() and player.damaged == False:
+                player.health -= enemy.get_damage()
+                player.set_on_damage_cooldown(True)
+            else:
+                player.check_damage_cooldown()
+            
 
     # Helper methods
     def create_arrow(self, pos, angle):
@@ -133,3 +155,10 @@ class Arena(Game):
         arrow.add_tag("arrow")
         self.eventHandler.add_event(arrow.update_movement)
         self.entityObjects.append(arrow)
+
+    def spawn_enemy(self, enemy):
+        self.entityObjects.append(enemy)
+
+    def get_enemy_count(self):
+        enemies = self.get_entities_by_tag("enemy")
+        return len(enemies)

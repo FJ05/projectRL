@@ -25,6 +25,9 @@ class EventHandler:
     def remove_event(self, event):
         self.added_events.remove(event)
 
+    def clear_events(self):
+        self.added_events = []
+
     # A method to set the function to be run when the quit event is run.
     def set_exist_callback(self, should_exit_callback):
         self.should_exit_callback = should_exit_callback
