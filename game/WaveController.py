@@ -1,11 +1,13 @@
 from objects.entities.enemies.blue_slime import Blue_Slime
 from objects.entities.enemies.green_slime import Green_Slime
+from objects.entities.enemies.black_slime import Black_Slime
+from objects.entities.enemies.pink_slime import Pink_Slime
 import random
 
 class Controller():
 
     def __init__(self, spawn_function, get_enemy_count_function, enemy_types : list, boss_types = []):
-        self.wave = 5
+        self.wave = 0
         self.enemies = 0
         self.enemy_types = enemy_types
         self.boss_types = boss_types
@@ -13,11 +15,13 @@ class Controller():
         self.spawn_wave = True
         self.spawn_function = spawn_function
         self.get_enemy_count_function = get_enemy_count_function
+        self.update_wave = None
 
     def spawn(self): # The function that runs each frame to check if it should spawn and if how many.
         if self.get_enemy_count_function() <= 0:
             self.wave += 1
             self.spawn_wave = True
+            self.update_wave(self.wave)
 
         if self.spawn_wave:
             self.spawn_wave = False
@@ -31,6 +35,10 @@ class Controller():
                         spawned_enemy = Blue_Slime(3, (random.randint(0,500), random.randint(0,500)))
                     elif enemy.get_tags().count("green_slime") > 0:
                         spawned_enemy = Green_Slime(3, (random.randint(0,500), random.randint(0,500)))
+                    elif enemy.get_tags().count("black_slime") > 0:
+                        spawned_enemy = Black_Slime(3, (random.randint(0,500), random.randint(0,500)))
+                    elif enemy.get_tags().count("pink_slime") > 0:
+                        spawned_enemy = Pink_Slime(3, (random.randint(0,500), random.randint(0,500)))
                     self.spawn_function(spawned_enemy)
 
 
@@ -53,3 +61,6 @@ class Controller():
             count[index] = amount
 
         return count
+
+    def set_update_wave(self,function):
+        self.update_wave = function

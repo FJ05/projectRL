@@ -12,6 +12,8 @@ from game.WaveController import Controller
 from objects.entities.player import Player
 from objects.entities.enemies.blue_slime import Blue_Slime
 from objects.entities.enemies.green_slime import Green_Slime
+from objects.entities.enemies.black_slime import Black_Slime
+from objects.entities.enemies.pink_slime import Pink_Slime
 from objects.worldObjects.backGroundObject import BackgroundObject
 from objects.worldObjects.collitionObject import CollitionObject
 from objects.worldObjects.textObject import TextObject
@@ -35,16 +37,32 @@ class Arena(Game):
 
     def create_objects(self):
         self.screen_size = pygame.display.get_window_size() # Get screen size
-        self.setup_background()
-        self.setup_walls()
         self.setup_player()
         self.setup_enemies()
         self.setup_events()
 
-    def setup_background(self): # Skapa Bakrunden
+        self.setup_arena()
+        self.setup_walls()
+
+    def setup_arena(self): # Skapa Bakrunden
         background_img = pygame.image.load(self.arena_path).convert()
         background = BackgroundObject(1, (0, 0), (255, 255, 255), self.screen_size, image=background_img)
         self.worldObjects.append(background)
+
+        # Graphics for the score
+        score_text = TextObject(4, (self.screen_size[0] / 1.2, self.screen_size[1] / 11), f"Score: {self.score}", 30, (255, 255, 255))
+        score_text.add_tag("Score")
+        self.worldObjects.append(score_text)
+
+        # Graphics for the wave
+        wave_text = TextObject(4, (self.screen_size[0] / 1.2, self.screen_size[1] / 8), f"Wave: ?", 30, (255, 255, 255))
+        wave_text.add_tag("wave")
+        self.worldObjects.append(wave_text)
+
+        # Graficx for controll text
+        controlls = TextObject(4, (40, self.screen_size[1] / 11), f"Controlls: WASD + Left Click", 30, (255, 255, 255))
+        controlls.add_tag("controlls")
+        self.worldObjects.append(controlls)
 
     def setup_player(self): #Skapa spelaren och dess inputhandlers
         player_position = (self.screen_size[0] / 2, self.screen_size[1] / 2)
@@ -70,8 +88,9 @@ class Arena(Game):
         return input_handler, attack_handler
 
     def setup_enemies(self):
-        enemy_list = [Blue_Slime(0,(0,0)), Green_Slime(0,(0,0))] # The list of enemies that can spawn
+        enemy_list = [Blue_Slime(0,(0,0)), Green_Slime(0,(0,0)),Black_Slime(0,(0,0)),Pink_Slime(0,(0,0))] # The list of enemies that can spawn
         contoller = Controller(self.spawn_enemy, self.get_enemy_count, enemy_list) # The controller that spawns enemies when condition is right.
+        contoller.set_update_wave(self.update_wave)
         self.eventHandler.add_event(contoller.spawn)
         self.eventHandler.add_event(self.update_enemies)
         
@@ -179,18 +198,20 @@ class Arena(Game):
     
     def update_score(self):
         # Updates the score text with the current score
-        size = pygame.display.get_window_size()
-        score_text_str = str(self.score)
-        
-        # Graphics for the score
-        score_text = TextObject(4, (size[0] / 2, size[1] / 11), f"Score: {score_text_str}", 30, (255, 255, 255))
-        score_text.add_tag("Score")
 
+        # Gets the score text
         scores = self.get_world_by_tag("Score")
-        # Removes the past score if there is a score to update
-        if self.score != 0:
-            for score in scores:
-                self.worldObjects.remove(score)
         
-        # Adds the current score to Arena
-        self.worldObjects.append(score_text)
+        # Sets it text to be the new score
+        for score in scores:
+            score.set_text(f"Score: {self.score}")
+
+    def update_wave(self, wave_int):
+        # Updates the score text with the current score
+
+        # Gets the wave text
+        waves = self.get_world_by_tag("wave")
+        
+        # Sets it text to be the new score
+        for wave in waves:
+            wave.set_text(f"Wave: {wave_int}")

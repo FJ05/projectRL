@@ -2,7 +2,7 @@ import pygame
 
 from objects.objects.enemyObject import EnemyObject
 
-class Green_Slime(EnemyObject):
+class Pink_Slime(EnemyObject):
 
     def __init__(self, level: int, pos: tuple):
         super().__init__(level, pos)

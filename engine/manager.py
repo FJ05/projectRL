@@ -6,7 +6,7 @@ class GameManager:
         # Pygame shit
         pygame.init()
         self.screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN if fullscreen else 0)
-        pygame.display.set_caption("Game Obama")
+        pygame.display.set_caption("RLGame")
 
         self.running = None
         self.dt = None
