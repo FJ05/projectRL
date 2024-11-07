@@ -18,7 +18,7 @@ class Player(EntityObject):
 
         # load the player with given player asset
         self.surface =  pygame.image.load(self.image_path).convert_alpha()
-        self.surface = pygame.transform.scale(self.surface, (rect[0] / 16, rect[1] / 9))
+        self.surface = pygame.transform.scale(self.surface, (rect[0] / 16 / 2, rect[1] / 9))
 
     def update_movement(self, dir):
         
