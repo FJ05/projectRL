@@ -7,7 +7,7 @@ class Green_Slime(EnemyObject):
     def __init__(self, level: int, pos: tuple):
         super().__init__(level, pos)
         self.velMax = [4, 4]  # Maximum velocity
-        self.image_path = "assets/objects/arrow.png"
+        self.image_path = "assets/mobs/green_slime.png"
         rect = pygame.display.get_window_size()
         self.add_tag("green_slime")
         self.set_health(10)
