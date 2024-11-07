@@ -1,7 +1,6 @@
 import pygame
 import math
 
-
 from engine.eventHandlers.inputHandlers.clickInputHandler import ClickInputHandler
 from engine.eventHandlers.inputHandlers.movementInputHandler import InputHandler
 from engine.game.Game import Game
@@ -50,6 +49,7 @@ class Arena(Game):
     def setup_player(self): #Skapa spelaren och dess inputhandlers
         player_position = (self.screen_size[0] / 2, self.screen_size[1] / 2)
         player = self.initialize_player(player_position)
+        self.player_controller = player
         input_handler, attack_handler = self.initialize_input_handlers(player)
         self.entityObjects.append(player)
         
@@ -141,7 +141,7 @@ class Arena(Game):
                         continue # Skip Arrows that do not actually exist in the list. Or that has already been removed.
                     self.entityObjects.remove(arrow)
 
-    def damage_player(self):
+    def damage_player(self,):
         player = self.get_entities_by_tag("player")[0]
         enemies = self.get_entities_by_tag("enemy")
         if player.health <= 0:
@@ -151,13 +151,20 @@ class Arena(Game):
             d = math.dist(player.get_pos(), enemy.get_pos())
             if d <= enemy.get_reach() and player.damaged == False:
                 player.health -= enemy.get_damage()
+                self.player_controller.stun_sprite()
                 player.set_on_damage_cooldown(True)
             else:
                 player.check_damage_cooldown()
-            
+                    
+    
+    
 
     # Helper methods
     def create_arrow(self, pos, angle):
+        # temp place for sprite change
+        # TODO place this where player heals
+        self.player_controller.sprite()
+        ####################################
         arrow = Arrow(3, pos, angle)
         arrow.add_tag("arrow")
         self.eventHandler.add_event(arrow.update_movement)

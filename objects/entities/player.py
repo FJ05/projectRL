@@ -7,6 +7,7 @@ class Player(EntityObject):
 
     def __init__(self, level: int, pos: tuple):
         super().__init__(level, pos)
+        self.stuned = False
         self.velMax = [7, 7]  # Maximum velocity
         self.colliding = False
         self.last_dir = (0,0)
@@ -14,11 +15,12 @@ class Player(EntityObject):
         self.set_damage_cooldown(2)
         # sets the path to the player
         self.image_path = "assets/player/player.png"
-        rect = pygame.display.get_window_size()
+        self.stun_image_path = "assets/player/stunned_player.png"
+        self.rect = pygame.display.get_window_size()
 
         # load the player with given player asset
         self.surface =  pygame.image.load(self.image_path).convert_alpha()
-        self.surface = pygame.transform.scale(self.surface, (rect[0] / 16 / 2, rect[1] / 9))
+        self.surface = pygame.transform.scale(self.surface, (self.rect[0] / 16 / 2, self.rect[1] / 9))
 
     def update_movement(self, dir):
         
@@ -55,3 +57,11 @@ class Player(EntityObject):
 
     def object_create(self, call_back):
         self.create_arrow_call_back = call_back
+        
+    def stun_sprite(self):
+        self.surface = pygame.image.load(self.stun_image_path).convert_alpha()
+        self.surface = pygame.transform.scale(self.surface, (self.rect[0] / 16 / 2, self.rect[1] / 9))
+
+    def sprite(self):
+        self.surface = pygame.image.load(self.image_path).convert_alpha()
+        self.surface = pygame.transform.scale(self.surface, (self.rect[0] / 16 / 2, self.rect[1] / 9))
