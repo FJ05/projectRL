@@ -26,12 +26,3 @@ class Blue_Slime(EnemyObject):
         # Move along this normalized vector towards the player at current speed.
         dirvect.scale_to_length((self.velMax[0]**2 + self.velMax[1]**2)**0.5)
         self.pos = self.get_x() + dirvect[0], self.get_y() + dirvect[1]
-
-    def collition(self, is_colliding):
-        self.colliding = is_colliding
-
-    def shoot(self, angle):
-        self.create_arrow_call_back(self.get_pos(), angle)
-
-    def object_create(self, call_back):
-        self.create_arrow_call_back = call_back
