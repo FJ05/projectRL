@@ -19,41 +19,60 @@ class Controller():
         self.update_wave = None
         self.screen_size = pygame.display.get_window_size() # Get screen size
 
-    def spawn(self): # The function that runs each frame to check if it should spawn and if how many.
-        if self.get_enemy_count_function() <= 0:
 
-            if self.wave % 5 == 0 and self.spawn_boss == False and self.wave != 0:
+
+    def spawn(self):
+        # Check if a new wave or boss spawn is needed
+        if self.get_enemy_count_function() <= 0:
+            # Boss spawns on every 5th wave, except wave 0
+            if self.wave % 5 == 0 and not self.spawn_boss and self.wave != 0:
                 self.spawn_boss = True
             else:
                 self.spawn_wave = True
             
+            # Increment wave and update wave tracker
             self.wave += 1
             self.update_wave(self.wave)
 
-
+        # Spawn boss if needed
         if self.spawn_boss:
             self.spawn_boss = False
-            boss = Boss_Slime(3, (100,self.screen_size[1]/2),10 + 1.5*self.wave,300+2*self.wave, 10+ 0.2*self.wave, self.wave)
+            boss = Boss_Slime(3, (100, self.screen_size[1] / 2), 10 + 1.5 * self.wave, 300 + 2 * self.wave, 10 + 0.2 * self.wave, self.wave)
             boss.set_spawn_function(self.spawn_function)
             self.spawn_function(boss)
 
-
+        # Spawn wave of enemies if needed
         elif self.spawn_wave:
             self.spawn_wave = False
             count = self.get_enemy_count()
-            print(count)
+            
+            # Define corners for spawning enemies outside the screen
+            corners = [
+                (-50, -50),  # Top-left corner
+                (self.screen_size[0] + 50, -50),  # Top-right corner
+                (-50, self.screen_size[1] + 50),  # Bottom-left corner
+                (self.screen_size[0] + 50, self.screen_size[1] + 50)  # Bottom-right corner
+            ]
+
             for enemy in self.enemy_types:
-                print(enemy)
-                for i in range(count[self.enemy_types.index(enemy)]):
-                    spawned_enemy = None
-                    if enemy.get_tags().count("blue_slime") > 0:
-                        spawned_enemy = Blue_Slime(3, (random.randint(0,500), random.randint(0,500)))
-                    elif enemy.get_tags().count("green_slime") > 0:
-                        spawned_enemy = Green_Slime(3, (random.randint(0,500), random.randint(0,500)))
-                    elif enemy.get_tags().count("black_slime") > 0:
-                        spawned_enemy = Black_Slime(3, (random.randint(0,500), random.randint(0,500)))
-                    elif enemy.get_tags().count("pink_slime") > 0:
-                        spawned_enemy = Pink_Slime(3, (random.randint(0,500), random.randint(0,500)))
+                spawn_count = count[self.enemy_types.index(enemy)]
+                
+                for _ in range(spawn_count):
+                    corner = random.choice(corners)  # Randomly choose a corner to spawn
+
+                    # Spawn based on enemy type tags
+                    if "blue_slime" in enemy.get_tags():
+                        spawned_enemy = Blue_Slime(3, corner)
+                    elif "green_slime" in enemy.get_tags():
+                        spawned_enemy = Green_Slime(3, corner)
+                    elif "black_slime" in enemy.get_tags():
+                        spawned_enemy = Black_Slime(3, corner)
+                    elif "pink_slime" in enemy.get_tags():
+                        spawned_enemy = Pink_Slime(3, corner)
+                    else:
+                        continue  # Skip if the enemy type tag is unrecognized
+                    
+                    # Use spawn function to place the enemy in the game
                     self.spawn_function(spawned_enemy)
 
 
