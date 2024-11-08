@@ -120,6 +120,10 @@ class Arena(Game):
         for enemy in enemies:
             enemy.update_movement(player.get_pos())
 
+        slimeballs = self.get_entities_by_tag("slimeball")
+        for slimeball in slimeballs:
+            slimeball.update_movement()
+
     def check_collisions(self):
         player = self.get_entities_by_tag("player")[0]
         walls = self.get_world_by_tag("wall")
@@ -132,7 +136,8 @@ class Arena(Game):
     def kill_arrows_hitting_wall(self):
         walls = self.get_world_by_tag("wall")
         arrows = self.get_entities_by_tag("arrow")
-        
+        slimeballs = self.get_entities_by_tag("slimeball")
+        arrows += slimeballs
         for wall in walls:
             for arrow in arrows:
                 if wall.get_rect().colliderect(arrow.get_rect()):
@@ -163,12 +168,14 @@ class Arena(Game):
     def damage_player(self,):
         player = self.get_entities_by_tag("player")[0]
         enemies = self.get_entities_by_tag("enemy")
+        projectiles = self.get_entities_by_tag("projectile")
+        enemies += projectiles
         if player.health <= 0:
             self.exit_game()
 
         for enemy in enemies:
             d = math.dist(player.get_pos(), enemy.get_pos())
-            if d <= enemy.get_reach() and player.damaged == False:
+            if (d <= enemy.get_reach() or enemy.get_rect().colliderect(player.get_rect())) and player.damaged == False:
                 player.health -= enemy.get_damage()
                 self.player_controller.stun_sprite()
                 player.set_on_damage_cooldown(True)

@@ -2,8 +2,9 @@ from objects.entities.enemies.blue_slime import Blue_Slime
 from objects.entities.enemies.green_slime import Green_Slime
 from objects.entities.enemies.black_slime import Black_Slime
 from objects.entities.enemies.pink_slime import Pink_Slime
+from objects.entities.enemies.boss.boss_slime import Boss_Slime
 import random
-
+import pygame
 class Controller():
 
     def __init__(self, spawn_function, get_enemy_count_function, enemy_types : list, boss_types = []):
@@ -16,14 +17,28 @@ class Controller():
         self.spawn_function = spawn_function
         self.get_enemy_count_function = get_enemy_count_function
         self.update_wave = None
+        self.screen_size = pygame.display.get_window_size() # Get screen size
 
     def spawn(self): # The function that runs each frame to check if it should spawn and if how many.
         if self.get_enemy_count_function() <= 0:
+
+            if self.wave % 5 == 0 and self.spawn_boss == False and self.wave != 0:
+                self.spawn_boss = True
+            else:
+                self.spawn_wave = True
+            
             self.wave += 1
-            self.spawn_wave = True
             self.update_wave(self.wave)
 
-        if self.spawn_wave:
+
+        if self.spawn_boss:
+            self.spawn_boss = False
+            boss = Boss_Slime(3, (100,self.screen_size[1]/2),10 + 1.5*self.wave,300+2*self.wave, 10+ 0.2*self.wave, self.wave)
+            boss.set_spawn_function(self.spawn_function)
+            self.spawn_function(boss)
+
+
+        elif self.spawn_wave:
             self.spawn_wave = False
             count = self.get_enemy_count()
             print(count)
@@ -42,9 +57,12 @@ class Controller():
                     self.spawn_function(spawned_enemy)
 
 
+
+
     def get_enemy_count(self): # This function return a list that looks like the self.enemy_types list but instead of an object it is the amount of that object that should be spawned each wave. It calculates this using some algoritm
         # Sort enemies by their damage in ascending order
-        sorted_by_damage = sorted(self.enemy_types, key=lambda obj: (obj.get_damage() + (obj.get_health() % 8)))
+        sorted_by_damage = sorted(self.enemy_types, key=lambda obj: (obj.get_damage() + obj.get_health() + obj.get_reach() + obj.get_speed()*3)//4)
+        sorted_by_damage.reverse()
         count = self.enemy_types.copy()
 
         # Calculate spawn amount for each enemy type, prioritizing low-damage enemies

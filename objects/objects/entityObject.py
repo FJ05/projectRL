@@ -33,6 +33,9 @@ class EntityObject(GameObject):
     def getAccY(self):
         return self.acc[1]
 
+    def get_speed(self):
+        return (self.velMax[0]**2 + self.velMax[1]**2)**0.5
+
     def set_health(self, health):
         self.health = health
 
