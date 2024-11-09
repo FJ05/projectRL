@@ -9,7 +9,7 @@ class Boss_Slime(EnemyObject):
     def __init__(self, level: int, pos: tuple, damage, health, reach, wave):
         super().__init__(level, pos)
         self.velMax = [0.5, 0.5]  # Maximum velocity
-        self.image_path = "assets/mobs/black_slime.png"
+        self.image_path = "assets/mobs/boss_slime.png"
         rect = pygame.display.get_window_size()
         self.add_tag("boss_slime")
         self.set_health(health)
