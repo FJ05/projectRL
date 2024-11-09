@@ -168,7 +168,9 @@ class Arena(Game):
             self.entityObjects.remove(entity)
 
             if tags.count("final_boss_slime"):
-                self.exit_game(1, "You Win")
+                self.exit_game({"next_game": 1,
+                                "reason": "YOU WIN",
+                                "score": self.score})
                 return
     def arrows_hitting_enemies(self):
         enemies = self.get_entities_by_tag("enemy")
@@ -188,7 +190,9 @@ class Arena(Game):
         projectiles = self.get_entities_by_tag("projectile")
         enemies += projectiles
         if player.health <= 0:
-            self.exit_game(1,"You Died")
+            self.exit_game({"next_game": 1,
+                                "reason": "You Loose",
+                                "score": self.score})
 
         for enemy in enemies:
             d = math.dist(player.get_pos(), enemy.get_pos())

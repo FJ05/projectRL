@@ -4,7 +4,7 @@ class Game:
         # A varible to hold the exist game function.
         self.end_reason = ""
         self.exit_game = None
-
+        self.score = 0
         # Set the eventHandler and renderer for this game
         self.eventHandler = eventHandler
         self.renderer = renderer
@@ -58,7 +58,6 @@ class Game:
 
         return worldObjects
     
-    def set_last_end_reason(self, reason):
-        print(reason, "reason")
-        self.end_reason = reason
-
+    def set_end_data(self, data):
+        self.end_reason = data["reason"]
+        self.score = data["score"]

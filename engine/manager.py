@@ -52,18 +52,18 @@ class GameManager:
     def set_running_state(self, state: bool):
         self.running = not bool
 
-    def end_current_game(self, next_game: int, reason = "none"): # next game means the next game in the game list
+    def end_current_game(self, end_data: dir): # next game means the next game in the game list
         #Callback function to end the current game's loop.
-        self.end_reason = reason
+        self.end_reason = end_data["reason"]
         print(self.end_reason)
         game = self.games[self.current_game_index]
         game.reset()
         self.init_game(game)
-        self.current_game_index = (self.current_game_index + next_game) % len(self.games)
+        self.current_game_index = (self.current_game_index + end_data["next_game"]) % len(self.games)
 
         new_game = self.games[self.current_game_index]
 
-        new_game.set_last_end_reason(self.end_reason)
+        new_game.set_end_data(end_data)
     def end(self):
         pygame.quit()
 

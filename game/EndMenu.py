@@ -40,14 +40,24 @@ class EndMenu(Game):
 
         self.worldObjects.append(main_menu_button)
         self.worldObjects.append(restart_button)
-        self.end_reason_create()
+        self.end_menu_create()
 
-    def end_reason_create(self):
+    def end_menu_create(self):
         reason_text = TextObject(2, (self.screen_size[0] / 2 - 40, self.screen_size[1] / 4 ), self.end_reason, 70, (0, 20, 0))
         reason_text.add_tag("reason")
-        self.eventHandler.add_event(self.update_reason)
-        self.worldObjects.append(reason_text)
 
-    def update_reason(self):
+        score_text = TextObject(2, (self.screen_size[0] / 2 - 40, self.screen_size[1] / 4 + 70 ), "?", 50, (0, 20, 0))
+        score_text.add_tag("score")
+
+        self.eventHandler.add_event(self.update_text)
+
+        self.worldObjects.append(reason_text)
+        self.worldObjects.append(score_text)
+
+
+    def update_text(self):
         reason_text = self.get_world_by_tag("reason")[0]
         reason_text.set_text(self.end_reason)
+
+        score_text = self.get_world_by_tag("score")[0]
+        score_text.set_text(f'Your Score: {self.score}')

@@ -18,6 +18,6 @@ class InputHandler:
             if self.object.rect.collidepoint(mouse_pos):  # Check if click is within rect bounds
                 pygame.mixer.Sound.play(self.click_sound)
                 skip = self.object.skip
-                self.call_back(skip)
+                self.call_back({"next_game": skip, "reason":"Start Game", "score": 0})
                 
 
