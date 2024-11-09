@@ -19,3 +19,4 @@ class EnemyObject(EntityObject):
 
     def kill(self): # A method to kill the enemy. The enemy will then be removed next frame after getting the dead tag.
         self.add_tag("dead")
+        self.healthbar.add_tag("dead")

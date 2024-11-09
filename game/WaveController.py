@@ -1,8 +1,11 @@
+from pygame.examples.cursors import image
+
 from objects.entities.enemies.blue_slime import Blue_Slime
 from objects.entities.enemies.green_slime import Green_Slime
 from objects.entities.enemies.black_slime import Black_Slime
 from objects.entities.enemies.pink_slime import Pink_Slime
 from objects.entities.enemies.boss.boss_slime import Boss_Slime
+from objects.entities.enemies.boss.final_boss_slime import Final_Boss_Slime
 import random
 import pygame
 class Controller():
@@ -12,7 +15,8 @@ class Controller():
         self.enemies = 0
         self.enemy_types = enemy_types
         self.boss_types = boss_types
-        self.spawn_boss = False
+        self.spawn_final_boss = False
+        self.spawn_mini_boss = False
         self.spawn_wave = True
         self.spawn_function = spawn_function
         self.get_enemy_count_function = get_enemy_count_function
@@ -24,9 +28,11 @@ class Controller():
     def spawn(self):
         # Check if a new wave or boss spawn is needed
         if self.get_enemy_count_function() <= 0:
+            if self.wave == 0:
+                self.spawn_final_boss = True
             # Boss spawns on every 5th wave, except wave 0
-            if self.wave % 5 == 0 and not self.spawn_boss and self.wave != 0:
-                self.spawn_boss = True
+            elif self.wave % 5 == 0 and not self.spawn_mini_boss and self.wave != 0:
+                self.spawn_mini_boss = True
             else:
                 self.spawn_wave = True
             
@@ -34,11 +40,18 @@ class Controller():
             self.wave += 1
             self.update_wave(self.wave)
 
-        # Spawn boss if needed
-        if self.spawn_boss:
-            self.spawn_boss = False
+        if self.spawn_final_boss:
+            self.spawn_final_boss = False
+            boss = Final_Boss_Slime(3, (100, self.screen_size[1] / 2))
+            boss.set_spawn_function(self.spawn_function)
+            self.spawn_function(boss)
+
+        # Spawn mini boss
+        if self.spawn_mini_boss:
+            self.spawn_mini_boss = False
             boss = Boss_Slime(3, (100, self.screen_size[1] / 2), 10 + 1.5 * self.wave, 300 + 2 * self.wave, 10 + 0.2 * self.wave, self.wave)
             boss.set_spawn_function(self.spawn_function)
+
             self.spawn_function(boss)
 
         # Spawn wave of enemies if needed
@@ -57,7 +70,7 @@ class Controller():
             for enemy in self.enemy_types:
                 spawn_count = count[self.enemy_types.index(enemy)]
                 
-                for _ in range(spawn_count):
+                for i in range(spawn_count):
                     corner = random.choice(corners)  # Randomly choose a corner to spawn
 
                     # Spawn based on enemy type tags

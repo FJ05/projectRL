@@ -1,9 +1,11 @@
 import time
 from objects.objects.gameObject import GameObject
+from objects.entities.utils.healthbar import Healthbar
 class EntityObject(GameObject):
 
     def __init__(self, level: int, pos: tuple) -> None:
         super().__init__(level, pos)
+        self.healthbar = None
         self.health = 1000000 # This thinks that health should normaly be
         self.maxHealth = 1000000
         self.damage_cooldown = 0.0 # Number in seconds
@@ -42,6 +44,12 @@ class EntityObject(GameObject):
     def get_health(self):
         return self.health
 
+    def set_maxHealth(self, maxHealth):
+        self.maxHealth = maxHealth
+
+    def get_maxHealth(self):
+        return self.maxHealth
+
     def set_damage(self, damage):
         self.damage = damage
 
@@ -68,3 +76,9 @@ class EntityObject(GameObject):
         elapsed_time = time.time() - self.start_time
         if elapsed_time >= self.get_damage_cooldown():
             self.set_on_damage_cooldown(False)
+
+    def update_healthbar(self):
+        if self.healthbar is None:
+            self.healthbar = Healthbar(10,self.pos)
+        self.healthbar.calculate_lenght(self.health, self.maxHealth)
+        self.healthbar.pos = (self.pos[0] + self.get_size()[0]/2 - 50, self.pos[1]-10)

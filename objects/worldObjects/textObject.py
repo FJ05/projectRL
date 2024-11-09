@@ -6,6 +6,7 @@ class TextObject(WorldObject):
 
     def __init__(self, level : int, pos : tuple, text: str, size: int, textColor: tuple, backgroundColor : tuple = None) -> None:
         super().__init__(level, pos)
+        self.skip = None
         self.backgroundColor = None
         self.textColor = None
         self.size = None
@@ -28,4 +29,6 @@ class TextObject(WorldObject):
         self.surface = self.font.render(text, True, self.textColor, self.backgroundColor)
         self.rect = self.get_rect()
 
+    def set_skip(self, skip = 1):
+        self.skip = skip
 

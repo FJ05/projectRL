@@ -4,15 +4,16 @@ import random
 
 from objects.objects.entityObject import EntityObject
 
-class Slime_ball(EntityObject):
+class Bouncy_Slime_ball(EntityObject):
 
     def __init__(self, level: int, pos: tuple, angle, damage = 10):
         super().__init__(level, pos)
-        self.velMax = [15, 15]  # Velocity of arrow
+        self.velMax = [3, 3]  # Velocity of arrow
         self.angle = angle
         self.rect = pygame.display.get_window_size() # size of the window for correct scaling
-        self.add_tag("slimeball")
-
+        self.add_tag("bouncy_slimeball")
+        self.add_tag("projectile")
+        self.bounces = 0
         self.set_damage(damage)
         rect = pygame.display.get_window_size()
         sound = pygame.mixer.Sound("sounds/entity_sounds/arrow.mp3")
@@ -26,5 +27,23 @@ class Slime_ball(EntityObject):
         
         pygame.mixer.Sound.play(sound)
 
-    def update_movement(self):
-        self.pos = self.get_x() + math.cos(self.angle) * self.getMaxVelX(), self.get_y() + math.sin(self.angle) * self.getMaxVelY()
+    def update_movement(self, hitting):
+        if self.bounces >= 7:
+            self.add_tag("dead")
+
+        x = self.get_x()
+        y = self.get_y()
+
+        if hitting:
+
+            x -= math.cos(self.angle) * self.getMaxVelX()
+            y -= math.sin(self.angle) * self.getMaxVelY()
+
+            self.angle = self.angle - (math.pi/2)
+            self.bounces += 1
+        else:
+            x += math.cos(self.angle) * self.getMaxVelX()
+            y += math.sin(self.angle) * self.getMaxVelY()
+
+
+        self.pos = (x,y)

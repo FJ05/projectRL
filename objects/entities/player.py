@@ -12,6 +12,7 @@ class Player(EntityObject):
         self.colliding = False
         self.last_dir = (0,0)
         self.set_health(100)
+        self.set_maxHealth(100)
         self.set_damage_cooldown(2)
         # sets the path to the player
         self.image_path = "assets/player/player.png"
@@ -23,7 +24,6 @@ class Player(EntityObject):
         self.surface = pygame.transform.scale(self.surface, (self.rect[0] / 16 / 2, self.rect[1] / 9))
 
     def update_movement(self, dir):
-        
         x, y = self.get_x(), self.get_y()
         vel_x, vel_y = self.getMaxVelX(), self.getMaxVelY()
 

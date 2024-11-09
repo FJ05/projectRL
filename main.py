@@ -1,6 +1,7 @@
 from engine.utils.getScreenResolution import get_screen_resolution
 from game.Arena import Arena
 from game.MainMenu import MainMenu
+from game.EndMenu import EndMenu
 from engine.manager import GameManager
 
 # Press Ctrl+F5 to execute it or replace it with your code.
@@ -11,7 +12,8 @@ def run():
 
     menu = MainMenu()
     arena = Arena()
-    config = [menu,arena]
+    end = EndMenu()
+    config = [menu,arena,end]
 
     res = get_screen_resolution()
 

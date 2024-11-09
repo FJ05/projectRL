@@ -93,6 +93,7 @@ class Arena(Game):
         contoller.set_update_wave(self.update_wave)
         self.eventHandler.add_event(contoller.spawn)
         self.eventHandler.add_event(self.update_enemies)
+        self.eventHandler.add_event(self.update_bouncy_slimeball)
         
     def setup_walls(self):
         wall_positions = [
@@ -110,9 +111,9 @@ class Arena(Game):
         # Registers all the game events for cleaner code separation
         self.eventHandler.add_event(self.arrows_hitting_enemies)
         self.eventHandler.add_event(self.kill_arrows_hitting_wall)
-        self.eventHandler.add_event(self.remove_dead_enemies)
         self.eventHandler.add_event(self.damage_player)
-
+        self.eventHandler.add_event(self.update_healthbars)
+        self.eventHandler.add_event(self.remove_dead_enemies)
     # Event methods
     def update_enemies(self):
         player = self.get_entities_by_tag("player")[0]
@@ -123,6 +124,17 @@ class Arena(Game):
         slimeballs = self.get_entities_by_tag("slimeball")
         for slimeball in slimeballs:
             slimeball.update_movement()
+
+    def update_bouncy_slimeball(self):
+        slimeballs = self.get_entities_by_tag("bouncy_slimeball")
+        walls = self.get_world_by_tag("wall")
+        for slimeball in slimeballs:
+            for wall in walls:
+                if wall.get_rect().colliderect(slimeball.get_rect()):
+                    slimeball.update_movement(True)
+                else:
+                    slimeball.update_movement(False)
+
 
     def check_collisions(self):
         player = self.get_entities_by_tag("player")[0]
@@ -149,10 +161,15 @@ class Arena(Game):
     def remove_dead_enemies(self):
         dead_entities = self.get_entities_by_tag("dead")
         for entity in dead_entities:
+            tags = entity.get_tags()
+
             self.score += 10 # Adds 10 score for each kill
             self.update_score() # updates the score
             self.entityObjects.remove(entity)
 
+            if tags.count("final_boss_slime"):
+                self.exit_game(1, "You Win")
+                return
     def arrows_hitting_enemies(self):
         enemies = self.get_entities_by_tag("enemy")
         arrows = self.get_entities_by_tag("arrow")
@@ -171,7 +188,7 @@ class Arena(Game):
         projectiles = self.get_entities_by_tag("projectile")
         enemies += projectiles
         if player.health <= 0:
-            self.exit_game()
+            self.exit_game(1,"You Died")
 
         for enemy in enemies:
             d = math.dist(player.get_pos(), enemy.get_pos())
@@ -183,7 +200,14 @@ class Arena(Game):
                 player.check_damage_cooldown()
                     
     
-    
+    def update_healthbars(self):
+        entities = self.get_entities_by_tag("enemy")
+        entities += self.get_entities_by_tag("player")
+
+        for entity in entities:
+            entity.update_healthbar()
+            if self.entityObjects.count(entity.healthbar) <= 0 and entity.healthbar is not None:
+                self.entityObjects.append(entity.healthbar)
 
     # Helper methods
     def create_arrow(self, pos, angle):

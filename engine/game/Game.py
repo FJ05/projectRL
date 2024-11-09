@@ -2,6 +2,7 @@ class Game:
 
     def __init__(self, eventHandler, renderer):
         # A varible to hold the exist game function.
+        self.end_reason = ""
         self.exit_game = None
 
         # Set the eventHandler and renderer for this game
@@ -27,21 +28,37 @@ class Game:
         self.exit_game = exit_game_call_back
 
     # A method to get all entities that has the tag specified
-    def get_entities_by_tag(self, tag: str):
+    def get_entities_by_tag(self, tag: str, exclude = False): # Exclude mean you revert the process and get all but the tag
 
         entities = []
         for entity in self.entityObjects:
-            if entity.tags.count(tag) > 0:
-                entities.append(entity)
+            if exclude:
+                if entity.tags.count(tag) > 0:
+                    continue
+                else:
+                    entities.append(entity)
+            else:
+                if entity.tags.count(tag) > 0:
+                    entities.append(entity)
 
         return entities
     # A method to get all the word objects that has the tag specified
-    def get_world_by_tag(self, tag: str):
+    def get_world_by_tag(self, tag: str, exclude = False): # Exclude mean you revert the process and get all but the tag
 
         worldObjects = []
         for world in self.worldObjects:
-            if world.tags.count(tag) > 0:
-                worldObjects.append(world)
+            if exclude:
+                if world.tags.count(tag) > 0:
+                    continue
+                else:
+                    worldObjects.append(world)
+            else:
+                if world.tags.count(tag) > 0:
+                    worldObjects.append(world)
 
         return worldObjects
+    
+    def set_last_end_reason(self, reason):
+        print(reason, "reason")
+        self.end_reason = reason
 

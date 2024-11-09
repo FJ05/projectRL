@@ -1,5 +1,6 @@
 import pygame.display
 
+from engine.eventHandlers.inputHandlers.clickEndInputHandler import EndInputHandler
 from engine.eventHandlers.inputHandlers.clickObjectInputHandler import InputHandler
 from engine.game.Game import Game
 from engine.renderers.defualtRenderer import Renderer
@@ -24,7 +25,15 @@ class MainMenu(Game):
         size = pygame.display.get_window_size()
         self.worldObjects.append(BackgroundObject(1, (0, 0), (178, 255, 46), size))
         start_button = TextObject(2, (size[0] / 2, size[1] / 2), "Start", 30, (0, 20, 0))
+        start_button.set_skip(1)
         inputHandler = InputHandler(self.exit_game, start_button)
         self.eventHandler.add_event(inputHandler.process_input)
 
         self.worldObjects.append(start_button)
+
+        end_button = TextObject(2, (size[0] / 2, size[1] / 1.5), "Exit", 30, (0, 20, 0))
+
+        end_handler = EndInputHandler(None, end_button)
+        self.eventHandler.add_event(end_handler.process_input)
+
+        self.worldObjects.append(end_button)

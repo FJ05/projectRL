@@ -4,6 +4,7 @@ class GameManager:
 
     def __init__(self, games, resolution=(800, 600), fullscreen=False):
         # Pygame shit
+        self.end_reason = ""
         pygame.init()
         self.screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN if fullscreen else 0)
         pygame.display.set_caption("RLGame")
@@ -51,13 +52,18 @@ class GameManager:
     def set_running_state(self, state: bool):
         self.running = not bool
 
-    def end_current_game(self):
+    def end_current_game(self, next_game: int, reason = "none"): # next game means the next game in the game list
         #Callback function to end the current game's loop.
+        self.end_reason = reason
+        print(self.end_reason)
         game = self.games[self.current_game_index]
         game.reset()
         self.init_game(game)
-        self.current_game_index = (self.current_game_index + 1) % len(self.games)
+        self.current_game_index = (self.current_game_index + next_game) % len(self.games)
 
+        new_game = self.games[self.current_game_index]
+
+        new_game.set_last_end_reason(self.end_reason)
     def end(self):
         pygame.quit()
 

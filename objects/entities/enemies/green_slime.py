@@ -11,6 +11,7 @@ class Green_Slime(EnemyObject):
         rect = pygame.display.get_window_size()
         self.add_tag("green_slime")
         self.set_health(30)
+        self.set_maxHealth(30)
         self.set_damage(40)
         self.set_reach(10)
         # load the slime with given enemy asset
