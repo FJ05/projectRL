@@ -12,7 +12,7 @@ class Black_Slime(EnemyObject):
         self.add_tag("black_slime")
         self.set_health(150)
         self.set_maxHealth(150)
-        self.set_damage(40)
+        self.set_damage(25)
         self.set_reach(10)
         # load the slime with given enemy asset
         self.surface =  pygame.image.load(self.image_path).convert_alpha()
