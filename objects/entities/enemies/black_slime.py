@@ -6,7 +6,7 @@ class Black_Slime(EnemyObject):
 
     def __init__(self, level: int, pos: tuple):
         super().__init__(level, pos)
-        self.velMax = [1, 1]  # Maximum velocity
+        self.velMax = [2, 2]  # Maximum velocity
         self.image_path = "assets/mobs/black_slime.png"
         rect = pygame.display.get_window_size()
         self.add_tag("black_slime")
