@@ -8,6 +8,7 @@ from engine.eventHandlers.defualtEventHandler import EventHandler
 
 from objects.worldObjects.textObject import TextObject
 from objects.worldObjects.backGroundObject import BackgroundObject
+# This class handels the main menu game, so clicking start or exit
 class MainMenu(Game):
 
     def __init__(self):
@@ -20,7 +21,7 @@ class MainMenu(Game):
 
         self.eventHandler.process_events()
         self.renderer.render()
-
+    # Create all the objects
     def create_objects(self):
         size = pygame.display.get_window_size()
         self.worldObjects.append(BackgroundObject(1, (0, 0), (178, 255, 46), size))

@@ -23,6 +23,7 @@ class Player(EntityObject):
         self.surface =  pygame.image.load(self.image_path).convert_alpha()
         self.surface = pygame.transform.scale(self.surface, (self.rect[0] / 16 / 2, self.rect[1] / 9))
 
+    # Based on dir.
     def update_movement(self, dir):
         x, y = self.get_x(), self.get_y()
         vel_x, vel_y = self.getMaxVelX(), self.getMaxVelY()
@@ -48,16 +49,19 @@ class Player(EntityObject):
         self.last_dir = dir
 
 
-
+    # A method to set the collition state for the player
     def collition(self, is_colliding):
         self.colliding = is_colliding
 
+    # A method to shoot an arrow
     def shoot(self, angle):
         self.create_arrow_call_back((self.get_x() + (self.get_size()[0]/2), self.get_y() + (self.get_size()[1]/2) ), angle)
 
+
     def object_create(self, call_back):
         self.create_arrow_call_back = call_back
-        
+
+
     def stun_sprite(self):
         self.surface = pygame.image.load(self.stun_image_path).convert_alpha()
         self.surface = pygame.transform.scale(self.surface, (self.rect[0] / 16 / 2, self.rect[1] / 9))

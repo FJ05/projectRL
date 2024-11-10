@@ -1,5 +1,7 @@
 import pygame
 from objects.objects.entityObject import EntityObject
+
+# parent class for enemies.
 class EnemyObject(EntityObject):
 
     def __init__(self, level: int, pos: tuple):

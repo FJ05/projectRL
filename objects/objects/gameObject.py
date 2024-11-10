@@ -1,3 +1,4 @@
+# A parent class for all object, entities and worldObject
 class GameObject:
 
     def __init__(self, level: int, pos: tuple) -> None:

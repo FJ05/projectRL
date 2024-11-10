@@ -2,11 +2,14 @@ import pygame
 # this handler support wasd movement.
 class InputHandler:
 
+    # takes in a callback function and an entity
     def __init__(self, call_back_function, entity_object=None) -> None:
         self.call_back = call_back_function
         self.entity = entity_object
 
+    # The function that will run each frame to process this event.
     def process_input(self):
+        # return if the entity is not given
         if self.entity is None:
             return
 

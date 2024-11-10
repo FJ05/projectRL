@@ -1,6 +1,7 @@
 import time
 from objects.objects.gameObject import GameObject
 from objects.entities.utils.healthbar import Healthbar
+# A parent class for all entities
 class EntityObject(GameObject):
 
     def __init__(self, level: int, pos: tuple) -> None:

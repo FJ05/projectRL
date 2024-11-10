@@ -7,6 +7,8 @@ from engine.eventHandlers.defualtEventHandler import EventHandler
 
 from objects.worldObjects.textObject import TextObject
 from objects.worldObjects.backGroundObject import BackgroundObject
+
+# This class is for a simple death or win menu. Menus are games afterall!
 class EndMenu(Game):
 
     def __init__(self):
@@ -21,6 +23,7 @@ class EndMenu(Game):
         self.eventHandler.process_events()
         self.renderer.render()
 
+    # Create all text object, background and thier inputhandler to be able to click on text
     def create_objects(self):
 
         self.screen_size = pygame.display.get_window_size()
@@ -54,7 +57,7 @@ class EndMenu(Game):
         self.worldObjects.append(reason_text)
         self.worldObjects.append(score_text)
 
-
+    # update the text on the screen to say what reason the game ender so win or loose and the score from the previos game.
     def update_text(self):
         reason_text = self.get_world_by_tag("reason")[0]
         reason_text.set_text(self.end_reason)

@@ -28,22 +28,24 @@ class Bouncy_Slime_ball(EntityObject):
         pygame.mixer.Sound.play(sound)
 
     def update_movement(self, hitting):
-        if self.bounces >= 7:
+        if self.bounces >= 7: # Remove the slimeball after 7 bouncec
             self.add_tag("dead")
 
         x = self.get_x()
         y = self.get_y()
 
-        if hitting:
+        if hitting: # If the slimeball currently exists in a wall
 
+            # Try to move it out of the wall by going back a frame in movement.
             x -= math.cos(self.angle) * self.getMaxVelX()
             y -= math.sin(self.angle) * self.getMaxVelY()
-
+            # Add 90 degrees to the angle or pi/2 so the bouce angle looks right.
             self.angle = self.angle - (math.pi/2)
-            self.bounces += 1
+            self.bounces += 1   # Add a bounce to the total bouncec
         else:
+            # if currently not in a wall move noramly along the angle.
             x += math.cos(self.angle) * self.getMaxVelX()
             y += math.sin(self.angle) * self.getMaxVelY()
 
-
+        # set the pos.
         self.pos = (x,y)
