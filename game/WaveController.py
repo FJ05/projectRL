@@ -30,10 +30,12 @@ class Controller():
     def spawn(self):
         # Check if a new wave or boss spawn is needed
         if self.get_enemy_count_function() <= 0:
-            if self.wave == 10: # Spawn final boss on wave 10, hardcapped
+
+            if self.wave == 9: # Spawn final boss on wave 9, hardcapped
+
                 self.spawn_final_boss = True
             # Boss spawns on every 5th wave, except wave 0
-            elif self.wave % 5 == 0 and not self.spawn_mini_boss and self.wave != 0:
+            elif self.wave % 4 == 0 and not self.spawn_mini_boss and self.wave != 0:
                 self.spawn_mini_boss = True
             else:
                 self.spawn_wave = True

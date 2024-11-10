@@ -10,16 +10,16 @@ class Final_Boss_Slime(EnemyObject):
     def __init__(self, level: int, pos: tuple):
         super().__init__(level, pos)
         self.velMax = [0.5, 0.5]  # Maximum velocity
-        self.image_path = "assets/mobs/black_slime.png"
-        rect = pygame.display.get_window_size()
+        self.image_path = "assets/mobs/boss.png"
+        self.rect = pygame.display.get_window_size()
         self.add_tag("final_boss_slime")
-        self.set_health(20)
+        self.set_health(2000)
         self.set_maxHealth(2000)
         self.set_damage(50)
         self.set_reach(20)
         # load the slime with given enemy asset
         self.surface =  pygame.image.load(self.image_path).convert_alpha()
-        self.surface = pygame.transform.scale(self.surface, (rect[0]*2 / 16, rect[1]*2 / 9))
+        self.surface = pygame.transform.scale(self.surface, (self.rect[0] / 16 / 2, self.rect[1] / 9))
 
         # varibles to track its last attack and attack speed.
         self.last_attack = 0
