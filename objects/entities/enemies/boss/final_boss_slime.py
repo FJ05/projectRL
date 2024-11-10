@@ -12,7 +12,7 @@ class Final_Boss_Slime(EnemyObject):
         self.image_path = "assets/mobs/boss.png"
         self.rect = pygame.display.get_window_size()
         self.add_tag("final_boss_slime")
-        self.set_health(20)
+        self.set_health(2000)
         self.set_maxHealth(2000)
         self.set_damage(50)
         self.set_reach(20)
