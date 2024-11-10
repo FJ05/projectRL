@@ -10,7 +10,7 @@ class Final_Boss_Slime(EnemyObject):
         super().__init__(level, pos)
         self.velMax = [0.5, 0.5]  # Maximum velocity
         self.image_path = "assets/mobs/boss.png"
-        rect = pygame.display.get_window_size()
+        self.rect = pygame.display.get_window_size()
         self.add_tag("final_boss_slime")
         self.set_health(20)
         self.set_maxHealth(2000)
