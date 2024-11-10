@@ -10,8 +10,8 @@ class Black_Slime(EnemyObject):
         self.image_path = "assets/mobs/black_slime.png"
         rect = pygame.display.get_window_size()
         self.add_tag("black_slime")
-        self.set_health(150)
-        self.set_maxHealth(150)
+        self.set_health(120)
+        self.set_maxHealth(120)
         self.set_damage(25)
         self.set_reach(10)
         # load the slime with given enemy asset
