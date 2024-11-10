@@ -56,7 +56,7 @@ class GameManager:
             game.create_objects()
     # A method to set the running state
     def set_running_state(self, state: bool):
-        self.running = state
+        self.running = not state # due the name in eventhandler being should_exit and the name here being running, makes us add not to invert the bool.
 
     # A method to end the current game and go to the next one, Take in end data
     def end_current_game(self, end_data: dir): # next game means the next game in the game list

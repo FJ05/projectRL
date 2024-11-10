@@ -12,6 +12,7 @@ class Slime_ball(EntityObject):
         self.angle = angle
         self.rect = pygame.display.get_window_size() # size of the window for correct scaling
         self.add_tag("slimeball")
+        self.add_tag("projectile")
 
         self.set_damage(damage)
         rect = pygame.display.get_window_size()
